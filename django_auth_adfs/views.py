@@ -26,6 +26,7 @@ class OAuth2CallbackView(View):
         Args:
             request (django.http.request.HttpRequest): A Django Request object
         """
+        request.verify = False
         code = request.GET.get("code")
         if not code:
             # Return an error message
@@ -82,6 +83,7 @@ class OAuth2LoginView(View):
         Args:
             request (django.http.request.HttpRequest): A Django Request object
         """
+        request.verify = False
         return redirect(provider_config.build_authorization_endpoint(request))
 
 
@@ -93,6 +95,7 @@ class OAuth2LoginNoSSOView(View):
         Args:
             request (django.http.request.HttpRequest): A Django Request object
         """
+        request.verify = False
         return redirect(provider_config.build_authorization_endpoint(request, disable_sso=True))
 
 
@@ -104,6 +107,7 @@ class OAuth2LoginForceMFA(View):
         Args:
             request (django.http.request.HttpRequest): A Django Request object
         """
+        request.verify = False
         return redirect(provider_config.build_authorization_endpoint(request, force_mfa=True))
 
 
@@ -115,5 +119,6 @@ class OAuth2LogoutView(View):
         Args:
             request (django.http.request.HttpRequest): A Django Request object
         """
+        request.verify = False
         logout(request)
         return redirect(provider_config.build_end_session_endpoint())
