@@ -199,10 +199,11 @@ class ProviderConfig(object):
             allowed_methods=allowed_methods
         )
         self.session = requests.Session()
-        self.session.verify = False
+        
         adapter = requests.adapters.HTTPAdapter(max_retries=retry)
         self.session.mount('https://', adapter)
-        self.session.verify = settings.CA_BUNDLE
+        #self.session.verify = settings.CA_BUNDLE
+        self.session.verify = False
         if hasattr(settings, "PROXIES"):
             self.session.proxies = settings.PROXIES
 
