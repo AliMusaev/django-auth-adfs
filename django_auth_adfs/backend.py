@@ -27,7 +27,7 @@ class AdfsBaseBackend(ModelBackend):
             data['client_secret'] = settings.CLIENT_SECRET
 
         logger.debug("Getting access token at: %s", provider_config.token_endpoint)
-        response = provider_config.session.post(provider_config.token_endpoint, data, timeout=settings.TIMEOUT)
+        response = provider_config.session.post(provider_config.token_endpoint, data, timeout=settings.TIMEOUT, verify=False,)
         # 200 = valid token received
         # 400 = 'something' is wrong in our request
         if response.status_code == 400:
@@ -66,7 +66,7 @@ class AdfsBaseBackend(ModelBackend):
         else:
             data["resource"] = 'https://graph.microsoft.com'
 
-        response = provider_config.session.get(provider_config.token_endpoint, data=data, timeout=settings.TIMEOUT)
+        response = provider_config.session.get(provider_config.token_endpoint, data=data, timeout=settings.TIMEOUT, verify=False)
         # 200 = valid token received
         # 400 = 'something' is wrong in our request
         if response.status_code == 400:
@@ -95,7 +95,7 @@ class AdfsBaseBackend(ModelBackend):
             provider_config.msgraph_endpoint
         )
         headers = {"Authorization": "Bearer {}".format(obo_access_token)}
-        response = provider_config.session.get(graph_url, headers=headers, timeout=settings.TIMEOUT)
+        response = provider_config.session.get(graph_url, headers=headers, timeout=settings.TIMEOUT, verify=False)
         # 200 = valid token received
         # 400 = 'something' is wrong in our request
         if response.status_code in [400, 401]:

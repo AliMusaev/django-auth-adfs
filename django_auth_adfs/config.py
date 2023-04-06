@@ -199,6 +199,7 @@ class ProviderConfig(object):
             allowed_methods=allowed_methods
         )
         self.session = requests.Session()
+        self.session.verify = False
         adapter = requests.adapters.HTTPAdapter(max_retries=retry)
         self.session.mount('https://', adapter)
         self.session.verify = settings.CA_BUNDLE
